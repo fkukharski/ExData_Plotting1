@@ -11,12 +11,16 @@ if (!file.exists(txt_file)){
         unzip(zip_file)
 }
 
+# reading 1/2/2007 and 2/2/2007 data
 data <- read.table(txt_file, sep = ";", na.strings = "?", skip = 66637, nrows = 2880, 
                    col.names = strsplit(readLines(txt_file, n = 1), ";")[[1]])
 
+# opening png graphics device
 png(filename = "plot1.png", width = 480, height = 480, units = "px")
 
+# graphic
 hist(data$Global_active_power, main = "Global Active Power", col = "red", 
      xlab = "Global Active Power (kilowatts)")
 
+# closing current plot
 dev.off()

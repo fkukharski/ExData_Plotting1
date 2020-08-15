@@ -11,18 +11,23 @@ if (!file.exists(txt_file)){
         unzip(zip_file)
 }
 
+# reading 1/2/2007 and 2/2/2007 data
 data <- read.table(txt_file, sep = ";", na.strings = "?", skip = 66637, nrows = 2880, 
                    col.names = strsplit(readLines(txt_file, n = 1), ";")[[1]])
 
+# adding datetime column
 data$datetime <- with(data, paste(Date, Time, sep = " "))
 data$datetime <- as.POSIXct(data$datetime, format = "%d/%m/%Y %H:%M:%S")
 
+# opening png graphics device
 png(filename = "plot2.png", width = 480, height = 480, units = "px")
 
+# graphic
 with(data, plot(datetime, Global_active_power, type = "n", xlab = "", 
                 ylab = "Global Active Power (kilowatts)"))
 with(data, lines(datetime, Global_active_power))
 
+# closing current plot
 dev.off()
 
 # ggplot(data, aes(x=datetime, y=Global_active_power)) + geom_line() + xlab("") + 
